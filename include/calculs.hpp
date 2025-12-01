@@ -1,7 +1,7 @@
 #if !defined(DEF_CALCULS)
 #define DEF_CALCULS
 
-class CellState;
+#include "CellState.hpp"
 
 class Calculs
 {

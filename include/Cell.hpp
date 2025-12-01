@@ -2,7 +2,7 @@
 #define CELL_HPP
 #include <vector>
 #include <CellState.hpp>
-#include <Calculs.hpp>
+#include <calculs.hpp>
 using namespace std;
 
 class Cell {
