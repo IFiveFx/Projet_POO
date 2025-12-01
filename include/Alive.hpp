@@ -3,6 +3,10 @@
 #include <CellState.hpp>
 
 class Alive : public CellState {
+    private:
+    Cell* cell;
+    public:
+    Alive(Cell* givenCell);
 
 };
 
