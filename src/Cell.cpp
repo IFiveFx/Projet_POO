@@ -10,6 +10,10 @@ void Cell::addNeighbour(Cell* neighbour) {
     neighbours.push_back(neighbour);
 }
 
+vector<Cell*> Cell::getNeighbors() {
+    return neighbours;
+}
+
 void Cell::checkNeighbour() {
     for (Cell* neighbour: neighbours) {
         if (dynamic_cast<Alive*>(neighbour->state)) {
@@ -31,3 +35,10 @@ Calculs* Cell::getCalc(){
     return calc;
 }
 
+void Cell::addAliveN(){
+    aliveNeighbour += 1;
+}
+
+void Cell::subAliveN(){
+    aliveNeighbour -= 1;
+}
