@@ -4,10 +4,6 @@
 #include <Cell.hpp>
 
 class Dead : public CellState {
-    private:
-    Cell* cell;
-    public:
-    Dead(Cell* givenCell);
 };
 
 
