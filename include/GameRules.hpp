@@ -6,19 +6,16 @@
 class GameRules
 {
 private:
-    /* data */
+    int OverPop;
+    int UnderPop;
 public:
-    GameRules(/* args */);
+    GameRules(int OverPop, int UnderPop);
     ~GameRules();
+    void setOverPop(int overPop);
+    void setUnderPop(int UnderPop);
+    int getOverPop();
+    int getUnderPop();
 };
-
-GameRules::GameRules(/* args */)
-{
-}
-
-GameRules::~GameRules()
-{
-}
 
 
 #endif // DEF_GAMERULES
