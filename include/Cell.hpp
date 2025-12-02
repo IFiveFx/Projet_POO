@@ -10,17 +10,15 @@ class Cell {
     vector<Cell*> neighbours;
     int aliveNeighbour;
     CellState* state;
-    Calculs* calc;
     public:
     Cell(CellState* state);
     void checkNeighbour();
     void addNeighbour(Cell* neighbour);
     vector<Cell*> getNeighbors();
     Cell* evolution();
-    void setCalc(Calculs* calc);
-    Calculs* getCalc();
     void addAliveN();
     CellState* getState();
+    int getAliveNeighbors();
 };
 
 

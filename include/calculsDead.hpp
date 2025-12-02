@@ -6,9 +6,9 @@
 class CalculsDead : public Calculs
 {
 public:
-    CalculsDead() = default;
-    ~CalculsDead() = default;
-    CellState* use(int aliveneighbour) override;
+    CalculsDead();
+    ~CalculsDead();
+    CellState* use(Cell* c) override;
 };
 
 

@@ -8,7 +8,7 @@ class Calculs
 {
 public:
     virtual ~Calculs() = default;
-    virtual CellState* use(int aliveNeighbour) = 0;
+    virtual CellState* use(Cell* c) = 0;
 };
 
 

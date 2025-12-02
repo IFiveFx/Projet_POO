@@ -3,6 +3,8 @@
 #include <calculs.hpp>
 #include <Alive.hpp>
 #include <Dead.hpp>
+#include <calculsAlive.hpp>
+#include <calculsDead.hpp>
 
 Cell::Cell(CellState* state) : state(state) {}
 
@@ -24,16 +26,14 @@ void Cell::checkNeighbour() {
 
 Cell* Cell::evolution(){ 
     Cell* a;
-    a = new Cell(calc->use(aliveNeighbour));
+    Calculs* c;
+    if (dynamic_cast<Alive*>(state)){
+        c = new CalculsAlive;
+    } else if (dynamic_cast<Dead*>(state)) {
+        c = new CalculsDead;
+    }
+    a = new Cell(c->use(this));
     return a;
-}
-
-void Cell::setCalc(Calculs* givenCalc){
-    calc = givenCalc;
-}
-
-Calculs* Cell::getCalc(){
-    return calc;
 }
 
 void Cell::addAliveN(){
@@ -43,4 +43,8 @@ void Cell::addAliveN(){
 
 CellState* Cell::getState() {
     return state;
+}
+
+int Cell::getAliveNeighbors() {
+    return aliveNeighbour;
 }
