@@ -6,6 +6,8 @@
 #include <calculsAlive.hpp>
 #include <calculsDead.hpp>
 
+GameRules* Cell::rules = nullptr;
+
 Cell::Cell(CellState* state) : state(state) {}
 
 void Cell::addNeighbour(Cell* neighbour) {
