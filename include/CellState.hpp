@@ -3,8 +3,7 @@
 
 class CellState {
 public:
-    CellState();
-    virtual ~CellState();
+    virtual ~CellState() = 0;
 };
 
 #endif
