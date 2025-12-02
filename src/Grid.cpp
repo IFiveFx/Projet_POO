@@ -5,7 +5,7 @@
 #include <iostream>
 using namespace std;
 
-Grid::Grid(int l, int c) : lines(l), columns(c) {}
+Grid::Grid(int l, int c) : lines(l), columns(c){}
 
 void Grid::init(File* f) {
     string textfile = f->read();

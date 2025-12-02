@@ -3,10 +3,12 @@
 #include <vector>
 #include <CellState.hpp>
 #include <calculs.hpp>
+#include "GameRules.hpp"
 using namespace std;
 
 class Cell {
     private:
+    static GameRules* rules;
     vector<Cell*> neighbours;
     int aliveNeighbour;
     CellState* state;
@@ -19,6 +21,8 @@ class Cell {
     void addAliveN();
     CellState* getState();
     int getAliveNeighbors();
+    static void setRules(GameRules* newRules);
+    static GameRules* getRules();
 };
 
 

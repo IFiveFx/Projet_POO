@@ -48,3 +48,9 @@ CellState* Cell::getState() {
 int Cell::getAliveNeighbors() {
     return aliveNeighbour;
 }
+void Cell::setRules(GameRules* newRules) {
+    rules = newRules;
+}
+GameRules* Cell::getRules() {
+    return rules;
+}
