@@ -40,3 +40,7 @@ void Cell::addAliveN(){
     aliveNeighbour += 1;
 }
 
+
+CellState* Cell::getState() {
+    return state;
+}
