@@ -18,6 +18,7 @@ class Grid {
     Grid* update();
     void init(File* f);
     void print();
+    void getNeighbors();
     
 };
 

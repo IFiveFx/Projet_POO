@@ -20,8 +20,7 @@ void Grid::init(File* f) {
             vector<Cell*> v; 
             cells.push_back(v);
             count += 1;
-        }
-        if (c == '0') {
+        } else if (c == '0') {
             Cell* tempcell;
             CellState* s;
             s = new Dead;
@@ -37,26 +36,20 @@ void Grid::init(File* f) {
             cells.at(count).push_back(tempcell);
         }
     }
-    //cout << "oui22\n";
-    //cout << "oui14\n";
+    getNeighbors();
+}
+
+
+void Grid::getNeighbors() {
     for (int a = 0; a < (cells.size()-1); a++) {
-        //cout << "oui15\n";
         for (int b = 0; b < cells.at(a).size(); b++) {
-            //cout << "oui16\n";
             for (int i = -1; i <= 1; i++) {
-                //cout << "oui17\n";
                 for (int j = -1; j <= 1; j++) {
-                    //cout << "oui18\n";
                     if(i == 0 && j == 0) continue;
-                    //cout << "oui26\n";
                     int xNeighbour = (a + i + (cells.size()-1)) % (cells.size()-1);
-                    //cout << "oui27\n";
                     int yNeighbour = (b + j + cells.at(a).size()) % cells.at(a).size();
-                    //cout << "oui28\n";
                     cells.at(xNeighbour).at(yNeighbour)->getNeighbors();
-                    //cout << "oui29\n";
                     cells.at(a).at(b)->addNeighbour(cells.at(xNeighbour).at(yNeighbour));
-                    //cout << "oui25\n";
                 }
             }
         }

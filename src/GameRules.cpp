@@ -1,6 +1,6 @@
 #include "GameRules.hpp"
 
-GameRules::GameRules(int OverPop, int UnderPop) : OverPop(OverPop),UnderPop(UnderPop) {}
+GameRules::GameRules(int UnderPop, int OverPop) : OverPop(OverPop),UnderPop(UnderPop) {}
 GameRules::~GameRules() {}
 void GameRules::setOverPop(int OverPop) {
     if (OverPop < 0)

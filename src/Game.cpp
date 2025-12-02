@@ -4,12 +4,12 @@
 using namespace std;
 
 
-Game::Game(int OverPop, int UnderPop, int iteration) {
+Game::Game(int UnderPop, int OverPop, int iteration) {
     if (OverPop < 0 || UnderPop < 0 || iteration < 0) {
      cerr << "les attributs de game ne peuvent être négatifs\n";
      return;   
     }
-    GameRules* rules = new GameRules(OverPop,UnderPop);
+    GameRules* rules = new GameRules(UnderPop,OverPop);
     this->rules = rules;
     this->iteration = iteration;
 }
@@ -30,7 +30,10 @@ bool Game::run() {
         //cout << "oui11\n";
         grille->print();
         //cout << "oui7\n";
-        grille = grille->update();
+        Grid* newGrid = new Grid(5,5);
+        newGrid = grille->update();
+        grille = newGrid;
+        grille->getNeighbors();
         if (iteration != 0)
         {
             nbiteration += 1;
