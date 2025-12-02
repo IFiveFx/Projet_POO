@@ -51,7 +51,6 @@ CellState* Cell::getState() {
 }
 
 int Cell::getAliveNeighbors() {
-    cout << aliveNeighbour << endl;
     return aliveNeighbour;
 }
 void Cell::setRules(GameRules* newRules) {
