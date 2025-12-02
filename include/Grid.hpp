@@ -1,25 +1,24 @@
-#if !defined(DEF_GRID)
-#define DEF_GRID
-
-#include "Cell.hpp"
+#ifndef GRID_HPP
+#define GRID_HPP
 #include <vector>
+#include <Cell.hpp>
+#include <file.hpp>
 using namespace std;
 
-class Grid
-{
-private:
-    int ligne;
-    int colonne;
-    vector<Cell*> cells;
-public:
-    Grid(int ligne, int colonne);
-    ~Grid() = default;
-    int getLigne();
-    int getColonne;
-    void update();
-    void init();
-    void print();
+
+class Grid {
+    private:
+    int lines;
+    int columns;
+    vector<vector<Cell*>> cells;
+    public:
+    Grid(int l, int c);
+    Grid* update();
+    void init(File* f);
+    
 };
 
 
-#endif // DEF_GRID
+
+
+#endif

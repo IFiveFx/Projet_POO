@@ -15,9 +15,12 @@ class Cell {
     Cell(CellState* state);
     void checkNeighbour();
     void addNeighbour(Cell* neighbour);
+    vector<Cell*> getNeighbors();
     Cell* evolution();
     void setCalc(Calculs* calc);
     Calculs* getCalc();
+    void addAliveN();
+    void subAliveN();
 };
 
 
