@@ -5,10 +5,12 @@
 #include <Dead.hpp>
 #include <calculsAlive.hpp>
 #include <calculsDead.hpp>
+#include <iostream>
+using namespace std;
 
 GameRules* Cell::rules = nullptr;
 
-Cell::Cell(CellState* state) : state(state) {}
+Cell::Cell(CellState* state) : state(state), aliveNeighbour(0) {}
 
 void Cell::addNeighbour(Cell* neighbour) {
     neighbours.push_back(neighbour);
@@ -49,6 +51,7 @@ CellState* Cell::getState() {
 }
 
 int Cell::getAliveNeighbors() {
+    cout << aliveNeighbour << endl;
     return aliveNeighbour;
 }
 void Cell::setRules(GameRules* newRules) {
