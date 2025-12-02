@@ -19,17 +19,40 @@ void Grid::init(File* f) {
         if (c == '0') {
             Cell* tempcell;
             CellState* s;
-            s = new Dead(tempcell);
+            s = new Dead;
             tempcell = new Cell(s);
             cells.at(count).push_back(tempcell);
         } else if (c == '1' ) {
             Cell* tempcell;
             CellState* s;
-            s = new Alive(tempcell);
+            s = new Alive;
             tempcell = new Cell(s);
             cells.at(count).push_back(tempcell);
         }
     }
+
+    for (int a = 0; a < cells.size(); a++) {
+        for (int b = 0; b < cells.at(a).size(); b++) {
+            for (int i = -1; i <= 1; i++) {
+                for (int j = -1; j <= 1; j++) {
+                    if(i == 0 && j == 0) continue;
+                    int xNeighbour = (a + i + cells.size()) % cells.size();
+                    int yNeighbour = (b + j + cells.at(a).size()) % cells.at(a).size();
+
+                    cells.at(a).at(b)->addNeighbour(cells.at(xNeighbour).at(yNeighbour));
+                }
+            }
+
+        }
+    }
+
+
+    for (vector<Cell*> v : cells) {
+        for (Cell* c : v) {
+            c->checkNeighbour();
+        }
+    }
+
 }
 
 Grid* Grid::update() {
