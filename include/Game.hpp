@@ -7,8 +7,6 @@
 class Game
 {
 private:
-    int OverPop;
-    int UnderPop;
     int iteration;
 public:
     Game(int OverPop, int UnderPop, int iteration = 0);

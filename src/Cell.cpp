@@ -24,7 +24,7 @@ void Cell::checkNeighbour() {
 
 Cell* Cell::evolution(){ 
     Cell* a;
-    a = new Cell(calc->use());
+    a = new Cell(calc->use(aliveNeighbour));
     return a;
 }
 

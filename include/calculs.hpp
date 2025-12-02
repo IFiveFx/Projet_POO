@@ -1,13 +1,14 @@
 #if !defined(DEF_CALCULS)
 #define DEF_CALCULS
 
+#include "Game.hpp"
 #include "CellState.hpp"
 
 class Calculs
 {
 public:
     virtual ~Calculs() = default;
-    virtual CellState* use() = 0;
+    virtual CellState* use(int aliveNeighbour) = 0;
 };
 
 
