@@ -42,7 +42,6 @@ void Grid::init(File* f) {
                     cells.at(a).at(b)->addNeighbour(cells.at(xNeighbour).at(yNeighbour));
                 }
             }
-
         }
     }
 
