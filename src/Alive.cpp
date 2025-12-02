@@ -1,8 +1,9 @@
 #include <Alive.hpp>
 #include <Cell.hpp>
 #include <calculsAlive.hpp>
+#include <CellState.hpp>
 
-Alive::Alive(Cell* givenCell) : cell(givenCell) { // Ne vas surement pas fonctionner correctement car initialisation meme sans changement dans la grid temp
+Alive::Alive(Cell* givenCell) : cell(givenCell) { 
     cell->checkNeighbour();
     Calculs* temp;
     temp = new CalculsAlive;

@@ -22,9 +22,10 @@ void Cell::checkNeighbour() {
     }
 }
 
-Cell* Cell::evolution(){ //Fuite Mémoire ??
-    Cell a(calc->use());
-    return &a;
+Cell* Cell::evolution(){ 
+    Cell* a;
+    a = new Cell(calc->use());
+    return a;
 }
 
 void Cell::setCalc(Calculs* givenCalc){
@@ -39,6 +40,3 @@ void Cell::addAliveN(){
     aliveNeighbour += 1;
 }
 
-void Cell::subAliveN(){
-    aliveNeighbour -= 1;
-}
