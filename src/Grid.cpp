@@ -8,14 +8,14 @@ using namespace std;
 Grid::Grid(int l, int c) : lines(l), columns(c){}
 
 void Grid::init(File* f) {
-    cout << "oui19\n";
+    //cout << "oui19\n";
     string textfile = f->read();
-    cout << "oui20\n";
+    //cout << "oui20\n";
     vector<Cell*> v; 
     cells.push_back(v);
     int count = 0;
     for (char c : textfile) {
-        cout << "oui21\n";
+        //cout << "oui21\n";
         if (c == char(10)) {
             vector<Cell*> v; 
             cells.push_back(v);
@@ -26,9 +26,9 @@ void Grid::init(File* f) {
             CellState* s;
             s = new Dead;
             tempcell = new Cell(s);
-            cout << "oui23\n";
+            //cout << "oui23\n";
             cells.at(count).push_back(tempcell);
-            cout << "oui24\n";
+            //cout << "oui24\n";
         } else if (c == '1' ) {
             Cell* tempcell;
             CellState* s;
@@ -37,30 +37,26 @@ void Grid::init(File* f) {
             cells.at(count).push_back(tempcell);
         }
     }
-    cout << "oui22\n";
-    cout << "oui14\n";
+    //cout << "oui22\n";
+    //cout << "oui14\n";
     for (int a = 0; a < (cells.size()-1); a++) {
-        cout << "oui15\n";
+        //cout << "oui15\n";
         for (int b = 0; b < cells.at(a).size(); b++) {
-            cout << "oui16\n";
+            //cout << "oui16\n";
             for (int i = -1; i <= 1; i++) {
-                cout << "oui17\n";
+                //cout << "oui17\n";
                 for (int j = -1; j <= 1; j++) {
-                    cout << "oui18\n";
+                    //cout << "oui18\n";
                     if(i == 0 && j == 0) continue;
-                    cout << "oui26\n";
-                    cout << (cells.size()-1) << endl;
-                    cout << cells.at(a).size() << endl;
+                    //cout << "oui26\n";
                     int xNeighbour = (a + i + (cells.size()-1)) % (cells.size()-1);
-                    cout << "oui27\n";
+                    //cout << "oui27\n";
                     int yNeighbour = (b + j + cells.at(a).size()) % cells.at(a).size();
-                    cout << "oui28\n";
-                    cout << xNeighbour << endl;
-                    cout << yNeighbour << endl;
+                    //cout << "oui28\n";
                     cells.at(xNeighbour).at(yNeighbour)->getNeighbors();
-                    cout << "oui29\n";
+                    //cout << "oui29\n";
                     cells.at(a).at(b)->addNeighbour(cells.at(xNeighbour).at(yNeighbour));
-                    cout << "oui25\n";
+                    //cout << "oui25\n";
                 }
             }
         }
@@ -76,18 +72,18 @@ void Grid::init(File* f) {
 }
 
 Grid* Grid::update() {
-    cout << "oui6\n";
-    Grid* newGrid;
+    //cout << "oui6\n";
+    Grid* newGrid = new Grid(5,5);
     int count = 0;
-    cout << "oui1\n";
+    //cout << "oui1\n";   
     for (vector<Cell*> v : cells) {
-        cout << "oui2\n";
+        //cout << "oui2\n";
         vector<Cell*> newV;
-        cout << "oui3\n";
+        //cout << "oui3\n";
         newGrid->cells.push_back(newV);
-        cout << "oui4\n";   
+        //cout << "oui4\n";   
         for (Cell* c : v) {
-            cout << "oui5\n";
+            //cout << "oui5\n";
             newGrid->cells.at(count).push_back(c->evolution());
         }
         count += 1;
@@ -98,11 +94,11 @@ Grid* Grid::update() {
 
 
 void Grid::print() {
-    cout << "oui10\n";
+    //cout << "oui10\n";
     for (vector<Cell*> v : cells){
-        cout << "oui8\n";
+        //cout << "oui8\n";
         for (Cell* c : v) {
-            cout << "oui9\n";
+            //cout << "oui9\n";
             if (dynamic_cast<Alive*>(c->getState())) {
                 cout << "1";
             } else if (dynamic_cast<Dead*>(c->getState())) {
@@ -111,6 +107,6 @@ void Grid::print() {
         }
         cout << endl;
     }
-
+    cout << "--------------------------------------\n";
 
 }

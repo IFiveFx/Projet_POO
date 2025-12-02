@@ -22,14 +22,14 @@ bool Game::run() {
     Cell::setRules(rules);
     Grid* grille = new Grid(5,5);
     File fichier("test","test.txt");
-    cout << "oui13\n";
+    //cout << "oui13\n";
     grille->init(&fichier);
-    cout << "oui12\n";
+    //cout << "oui12\n";
     while (run)
     {
-        cout << "oui11\n";
+        //cout << "oui11\n";
         grille->print();
-        cout << "oui7\n";
+        //cout << "oui7\n";
         grille = grille->update();
         if (iteration != 0)
         {
