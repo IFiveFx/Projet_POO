@@ -13,6 +13,9 @@ Game::Game(int OverPop, int UnderPop, int iteration) {
     this->rules = rules;
     this->iteration = iteration;
 }
+Game::~Game() {
+    delete rules;
+}
 bool Game::run() {
     bool run = true;
     int nbiteration = 0;
@@ -30,6 +33,7 @@ bool Game::run() {
             if (nbiteration == iteration) run = false;
         }
     }
+    delete grille;
 }
 
 void Game::setRules(GameRules* rules) {
