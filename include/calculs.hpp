@@ -3,6 +3,9 @@
 
 #include "Game.hpp"
 #include "CellState.hpp"
+#include "Cell.hpp"
+
+class Cell;
 
 class Calculs
 {

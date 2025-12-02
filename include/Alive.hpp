@@ -4,8 +4,9 @@
 #include <Cell.hpp>
 
 class Alive : public CellState {
-    Alive() = default;
-    ~Alive() = default;
+    public :
+        Alive() = default;
+        ~Alive() = default;
 };
 
 

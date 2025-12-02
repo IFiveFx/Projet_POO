@@ -5,6 +5,8 @@
 #include <file.hpp>
 using namespace std;
 
+class Cell;
+
 
 class Grid {
     private:

@@ -34,6 +34,7 @@ bool Game::run() {
         }
     }
     delete grille;
+    return 0;
 }
 
 void Game::setRules(GameRules* rules) {

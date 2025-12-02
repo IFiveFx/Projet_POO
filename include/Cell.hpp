@@ -6,6 +6,8 @@
 #include "GameRules.hpp"
 using namespace std;
 
+class GameRules;
+
 class Cell {
     private:
     static GameRules* rules;
