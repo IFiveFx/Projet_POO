@@ -10,7 +10,7 @@ void Grid::init(File* f) {
     string textfile = f->read();
     int count = 0;
     for (char c : textfile) {
-        if (c == '/n') {
+        if (c == char(10)) {
             vector<Cell*> v; 
             cells.push_back(v);
             count += 1;
@@ -42,5 +42,6 @@ Grid* Grid::update() {
         }
         count += 1;
     }
+    return newGrid;
 
 }
