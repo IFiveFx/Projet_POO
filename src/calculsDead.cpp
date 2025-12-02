@@ -5,7 +5,7 @@
 
 CellState* CalculsDead::use(Cell* c) {
     CellState* state;
-    if (c->getAliveNeighbors() == 3) {
+    if (c->getAliveNeighbors() == c->getRules()->getOverPop()) {
         state = new Alive;
     } else {
         state = new Dead;
