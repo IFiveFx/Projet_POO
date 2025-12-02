@@ -1,8 +1,7 @@
-#include "file.hpp"
+#include "Game.hpp"
 
 int main() {
-    File fichier("test","test.txt");
-    fichier.write("coucou c'est moi, moumou la reine des mouettes !");
-    fichier.read();
+    Game jeu(2,3);
+    jeu.run();
     return 0;
 }

@@ -33,6 +33,7 @@ Cell* Cell::evolution(){
         c = new CalculsDead;
     }
     a = new Cell(c->use(this));
+    delete c;
     return a;
 }
 
