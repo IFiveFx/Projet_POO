@@ -35,7 +35,6 @@ string File::read() const{
 
     while (getline(file,ligne)) output += ligne + "\n";
     
-    cout << output << endl;
     return output;  
     
 }
