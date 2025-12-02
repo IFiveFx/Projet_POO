@@ -4,18 +4,19 @@
 #include "Grid.hpp"
 #include "file.hpp"
 
+class GameRules;
+
 class Game
 {
 private:
+    GameRules* rules;
     int iteration;
 public:
     Game(int OverPop, int UnderPop, int iteration = 0);
     ~Game() = default;
     bool run();
-    void setOverPop(int OverPop);
-    void setUnderPop(int UnderPop);
-    int getOverPop() const;
-    int getUnderPop() const;
+    void setRules(GameRules* rules);
+    GameRules* getRules();
 };
 
 
