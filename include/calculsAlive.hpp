@@ -8,7 +8,7 @@ class CalculsAlive : public Calculs
 public:
     CalculsAlive();
     ~CalculsAlive();
-    CellState* use() override;
+    CellState* use(Cell* c) override;
 };
 
 

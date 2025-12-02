@@ -8,7 +8,7 @@ class CalculsDead : public Calculs
 public:
     CalculsDead();
     ~CalculsDead();
-    CellState* use() override;
+    CellState* use(Cell* c) override;
 };
 
 
