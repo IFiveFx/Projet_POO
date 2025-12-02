@@ -14,8 +14,13 @@ Game::Game(int OverPop, int UnderPop, int iteration) {
 bool Game::run() {
     bool run = true;
     int nbiteration = 0;
+    Grid* grille = new Grid(5,5);
+    File fichier("test","test.txt");
+    grille->init(&fichier);
     while (run)
     {
+        grille->print();
+        grille = grille->update();
         if (iteration != 0)
         {
             nbiteration += 1;
@@ -23,7 +28,23 @@ bool Game::run() {
         }
     }
 }
-void Game::setOverPop(int OverPop) {}
-void Game::setUnderPop(int UnderPop) {}
-int Game::getOverPop() const {}
-int Game::getUnderPop() const {}
+void Game::setOverPop(int OverPop) {
+    if(OverPop < 0) {
+        cerr << "Overpop ne peut être inferieur a 0\n";
+        return;
+    }
+    this->OverPop = OverPop;
+}
+void Game::setUnderPop(int UnderPop) {
+    if(UnderPop < 0) {
+        cerr << "UnderPop ne peut être inferieur a 0\n";
+        return;
+    }
+    this->UnderPop = UnderPop;
+}
+int Game::getOverPop() const {
+    return OverPop;
+}
+int Game::getUnderPop() const {
+    return UnderPop;
+}
