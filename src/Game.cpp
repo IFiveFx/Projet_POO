@@ -22,22 +22,26 @@ bool Game::run() {
     Cell::setRules(rules);
     Grid* grille = new Grid(5,5);
     File fichier("test","test.txt");
-    //cout << "oui13\n";
     grille->init(&fichier);
-    //cout << "oui12\n";
     while (run)
     {
-        //cout << "oui11\n";
-        grille->print();
-        //cout << "oui7\n";
-        Grid* newGrid = new Grid(5,5);
-        newGrid = grille->update();
-        grille = newGrid;
-        grille->getNeighbors();
-        if (iteration != 0)
-        {
-            nbiteration += 1;
-            if (nbiteration == iteration) run = false;
+        cout << "itération " << nbiteration << " :" << endl;
+            grille->print();
+        if (hashes.find(grille->getHash()) == hashes.end()) {
+            hashes.emplace(grille->getHash(), nbiteration);
+            Grid* newGrid = new Grid(5,5);
+            newGrid = grille->update();
+            grille = newGrid;
+            grille->getNeighbors();
+            if (iteration != 0)
+            {
+                nbiteration += 1;
+                if (nbiteration == iteration) run = false;
+            }
+        } else {
+            cout << "répétition de l'itération : " << hashes.find(grille->getHash())->second << endl;
+            delete grille;
+            return 0;
         }
     }
     delete grille;

@@ -10,6 +10,7 @@ class Cell;
 
 class Grid {
     private:
+    size_t h;
     int lines;
     int columns;
     vector<vector<Cell*>> cells;
@@ -19,6 +20,8 @@ class Grid {
     void init(File* f);
     void print();
     void getNeighbors();
+    void createHash();
+    size_t getHash();
     
 };
 

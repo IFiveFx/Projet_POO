@@ -62,6 +62,8 @@ void Grid::getNeighbors() {
         }
     }
 
+    createHash();
+
 }
 
 Grid* Grid::update() {
@@ -102,4 +104,27 @@ void Grid::print() {
     }
     cout << "--------------------------------------\n";
 
+}
+
+
+void Grid::createHash() {
+    hash<string> hs;
+    string s = "";
+    for (vector<Cell*> v : cells){
+        //cout << "oui8\n";
+        for (Cell* c : v) {
+            //cout << "oui9\n";
+            if (dynamic_cast<Alive*>(c->getState())) {
+                s += "1";
+            } else if (dynamic_cast<Dead*>(c->getState())) {
+                s += "0";
+            }
+        }
+    }
+    h = hs(s);
+
+}
+
+size_t Grid::getHash() {
+    return h;
 }
