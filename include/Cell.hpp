@@ -20,6 +20,7 @@ class Cell {
     void setCalc(Calculs* calc);
     Calculs* getCalc();
     void addAliveN();
+    CellState* getState();
 };
 
 

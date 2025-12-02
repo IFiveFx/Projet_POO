@@ -2,6 +2,7 @@
 #include <string>
 #include <Dead.hpp>
 #include <Alive.hpp>
+#include <iostream>
 using namespace std;
 
 Grid::Grid(int l, int c) : lines(l), columns(c) {}
@@ -43,5 +44,21 @@ Grid* Grid::update() {
         count += 1;
     }
     return newGrid;
+
+}
+
+
+void Grid::print() {
+    for (vector<Cell*> v : cells){
+        for (Cell* c : v) {
+            if (dynamic_cast<Alive*>(c->getState())) {
+                cout << "1";
+            } else if (dynamic_cast<Dead*>(c->getState())) {
+                cout << "0";
+            }
+        }
+        cout << endl;
+    }
+
 
 }

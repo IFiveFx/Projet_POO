@@ -15,6 +15,7 @@ class Grid {
     Grid(int l, int c);
     Grid* update();
     void init(File* f);
+    void print();
     
 };
 
