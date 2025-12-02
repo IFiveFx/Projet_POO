@@ -8,8 +8,24 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 # Ajoute le dossier include/ pour les headers
 include_directories(include)
 
+
 # Récupère tous les fichiers .cpp dans src/
 file(GLOB SOURCES "src/*.cpp")
 
 # Crée l'exécutable
 add_executable(exe ${SOURCES})
+
+find_package(SFML 2.5 COMPONENTS graphics window system REQUIRED)
+if (SFML_FOUND)
+    target_include_directories(exe PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/include")
+    # Some SFML CMake packages provide imported targets (SFML::Graphics),
+    # others only expose library names. Try imported targets first, fallback
+    # to plain library names if they are not available.
+    if (TARGET SFML::Graphics)
+        target_link_libraries(exe PRIVATE SFML::Graphics SFML::Window SFML::System)
+    else()
+        target_link_libraries(exe PRIVATE sfml-graphics sfml-window sfml-system)
+    endif()
+else()
+    message(FATAL_ERROR "SFML not found. Install SFML development packages or set SFML_DIR.")
+endif()

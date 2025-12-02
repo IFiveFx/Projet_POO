@@ -36,18 +36,20 @@ void Grid::init(File* f) {
             cells.at(count).push_back(tempcell);
         }
     }
+    lines = cells.size()-1;
+    columns = cells[0].size();
     getNeighbors();
 }
 
 
 void Grid::getNeighbors() {
-    for (int a = 0; a < (cells.size()-1); a++) {
-        for (int b = 0; b < cells.at(a).size(); b++) {
+    for (int a = 0; a < lines; a++) {
+        for (int b = 0; b < columns; b++) {
             for (int i = -1; i <= 1; i++) {
                 for (int j = -1; j <= 1; j++) {
                     if(i == 0 && j == 0) continue;
-                    int xNeighbour = (a + i + (cells.size()-1)) % (cells.size()-1);
-                    int yNeighbour = (b + j + cells.at(a).size()) % cells.at(a).size();
+                    int xNeighbour = (a + i + lines) % (lines);
+                    int yNeighbour = (b + j + columns) % columns;
                     cells.at(xNeighbour).at(yNeighbour)->getNeighbors();
                     cells.at(a).at(b)->addNeighbour(cells.at(xNeighbour).at(yNeighbour));
                 }
@@ -64,9 +66,9 @@ void Grid::getNeighbors() {
 
 }
 
-Grid* Grid::update() {
+void Grid::update() {
     //cout << "oui6\n";
-    Grid* newGrid = new Grid(5,5);
+    Grid* newGrid = new Grid(lines,columns);
     int count = 0;
     //cout << "oui1\n";   
     for (vector<Cell*> v : cells) {
@@ -81,7 +83,7 @@ Grid* Grid::update() {
         }
         count += 1;
     }
-    return newGrid;
+    this->cells = newGrid->getCells();
 
 }
 
@@ -102,4 +104,14 @@ void Grid::print() {
     }
     cout << "--------------------------------------\n";
 
+}
+
+int Grid::getColums() const {
+    return columns;
+}
+int Grid::getLines() const {
+    return lines;
+}
+vector<vector<Cell*>> Grid::getCells() const {
+    return cells;
 }

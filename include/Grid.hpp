@@ -15,11 +15,13 @@ class Grid {
     vector<vector<Cell*>> cells;
     public:
     Grid(int l, int c);
-    Grid* update();
+    void update();
     void init(File* f);
     void print();
     void getNeighbors();
-    
+    int getLines() const;
+    int getColums() const;
+    vector<vector<Cell*>> getCells() const;
 };
 
 
