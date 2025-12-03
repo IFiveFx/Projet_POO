@@ -32,6 +32,7 @@ bool Game::run() {
     int speed = 100;
     while (run)
     {
+       
         if (fenetre->getSfWindow()->isOpen()) {
             sf::Event event;
             while (fenetre->getSfWindow()->pollEvent(event)) {
@@ -58,13 +59,20 @@ bool Game::run() {
         //cout << "oui11\n";
         fenetre->renderWindow();
         //cout << "oui7\n";
-        
+        cout << "itération " << nbiteration << " :" << endl;
+         grille->print();
+        if (hashes.find(grille->getHash()) == hashes.end()) {
         grille->update();
         grille->getNeighbors();
         nbiteration += 1;
         if (iteration != 0 && nbiteration == iteration)
         {
             run = false;
+        }
+          } else {
+            cout << "répétition de l'itération : " << hashes.find(grille->getHash())->second << endl;
+            delete grille;
+            return 0;
         }
         
         sf::sleep(sf::milliseconds(speed));

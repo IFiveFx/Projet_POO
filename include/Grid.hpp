@@ -10,6 +10,7 @@ class Cell;
 
 class Grid {
     private:
+    size_t h;
     int lines;
     int columns;
     vector<vector<Cell*>> cells;
@@ -22,6 +23,9 @@ class Grid {
     int getLines() const;
     int getColums() const;
     vector<vector<Cell*>> getCells() const;
+    void createHash();
+    size_t getHash();
+    
 };
 
 
