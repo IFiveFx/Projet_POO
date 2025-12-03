@@ -20,6 +20,8 @@ public:
     bool run();
     void setRules(GameRules* rules);
     GameRules* getRules();
+    string setFile();
+    string setFileName(string path);
 };
 
 

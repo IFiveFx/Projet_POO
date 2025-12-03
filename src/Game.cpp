@@ -3,6 +3,8 @@
 #include <Cell.hpp>
 #include <ctime>
 #include "Window.hpp"
+#include <nfd.hpp>
+
 using namespace std;
 
 
@@ -23,7 +25,9 @@ bool Game::run() {
     int nbiteration = 0;
     Cell::setRules(rules);
     Grid* grille = new Grid(5,5);
-    File fichier("test","test.txt");
+    string FilePath = setFile();
+    string fileN = setFileName(FilePath);
+    File fichier(fileN, FilePath);
     //cout << "oui13\n";
     grille->init(&fichier);
     Window* fenetre = new Window(grille);
@@ -88,4 +92,53 @@ void Game::setRules(GameRules* rules) {
 }
 GameRules* Game::getRules() {
     return this->rules;
+}
+
+
+
+string Game::setFile() {
+    NFD_Init();
+
+    nfdu8char_t *outPath;
+    nfdu8filteritem_t filters[1] = { { "Text", "txt" }};
+    nfdopendialogu8args_t args = {0};
+    args.filterList = filters;
+    args.filterCount = 1;
+    nfdresult_t result = NFD_OpenDialogU8_With(&outPath, &args);
+    if (result == NFD_OKAY)
+    {
+        puts("Success!");
+        puts(outPath);
+        return outPath;
+        NFD_FreePathU8(outPath);
+    }
+    else if (result == NFD_CANCEL)
+    {
+        puts("User pressed cancel.");
+    }
+    else 
+    {
+        printf("Error: %s\n", NFD_GetError());
+    }
+
+    NFD_Quit();
+    return "test.txt";
+}
+
+string Game::setFileName(string path) {
+    int nameStart = 0;
+    string res;
+    cout << path << endl;
+    for (int i = 1; i < path.length(); i++) {
+        if (path.at(i) == char(47)) {
+            nameStart = i + 1;
+
+        }
+    }
+    for (int i = nameStart; i < (path.length()-4); i++) {
+        res.push_back(path.at(i));
+    }
+    cout << res << endl;
+    return res;
+
 }

@@ -5,8 +5,10 @@ project("PROJET_POO")
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# Ajoute le dossier include/ pour les headers
-include_directories(include)
+
+# Use target-based includes: project headers for `exe` and rely on the
+# `nfd` target to export its include directories (PUBLIC include/).
+# Remove global include_directories to avoid polluting global include path.
 
 
 # Récupère tous les fichiers .cpp dans src/
@@ -16,8 +18,12 @@ file(GLOB SOURCES "src/*.cpp")
 add_executable(exe ${SOURCES})
 
 find_package(SFML 2.5 COMPONENTS graphics window system REQUIRED)
+
+add_subdirectory(./nativefiledialog-extended)
+target_include_directories(exe PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/include")
+target_link_libraries(exe PRIVATE nfd)
+
 if (SFML_FOUND)
-    target_include_directories(exe PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/include")
     # Some SFML CMake packages provide imported targets (SFML::Graphics),
     # others only expose library names. Try imported targets first, fallback
     # to plain library names if they are not available.
