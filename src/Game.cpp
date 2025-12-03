@@ -129,7 +129,7 @@ void delFolder(const string Path) {
 
         string fullPath = Path + "/" + name;
 
-        unlink(fullPath.c_str()) != 0;
+        remove(fullPath.c_str());
     }
 
     closedir(dir);
