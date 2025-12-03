@@ -23,6 +23,7 @@ class Grid {
         int getLines() const;
         int getColums() const;
         vector<vector<Cell*>> getCells() const;
+        void setCells(vector<vector<Cell*>> cells);
         void createHash();
         size_t getHash();
     

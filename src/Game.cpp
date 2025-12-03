@@ -6,6 +6,10 @@
 #include <sys/stat.h>
 #include <unistd.h>
 #include <dirent.h>
+#include "Alive.hpp"
+#include "Dead.hpp"
+#include "Immortal.hpp"
+#include "Damned.hpp"
 using namespace std;
 
 void delFolder(const string Path);
@@ -47,6 +51,8 @@ bool Game::run() {
     fenetre->initWindow();
     //cout << "oui12\n";
     int speed = 100;
+    bool pause = true;
+    bool rightPressed = false;
 
     while (run)
     {
@@ -70,7 +76,47 @@ bool Game::run() {
                     if(speed == 1000) break;
                     speed += 10;
                     break;
+                case sf::Keyboard::Space :
+                    pause = !pause;
+                    break;
                 }
+                if (pause)
+                {
+                    switch (event.key.code)
+                    {
+                    case sf::Keyboard::Right:
+                        rightPressed = true;
+                        break;
+                    }
+                }
+                
+            }
+            if(event.type == sf::Event::MouseButtonReleased) {
+                 if (event.mouseButton.button == sf::Mouse::Left) {
+                    sf::Vector2i mousePosition = sf::Mouse::getPosition(*fenetre->getSfWindow());
+                    int mouseX = mousePosition.x; 
+                    int mouseY = mousePosition.y;
+                    vector<vector<Cell*>> MousesCells = grille->getCells();
+                    Cell* mousesCell;
+                    cout << "mouse1\n";
+                    if (dynamic_cast<Alive*>(MousesCells.at(mouseX).at(mouseY)->getState())) {
+                        cout << "mouse2\n";
+                        MousesCells.at(mouseX).at(mouseY)->setState(new Immortal);
+                        grille->setCells(MousesCells);
+                    } else if (dynamic_cast<Dead*>(MousesCells.at(mouseX).at(mouseY)->getState())) {
+                        cout << "mouse3\n";
+                        MousesCells.at(mouseX).at(mouseY)->setState(new Alive);
+                        grille->setCells(MousesCells);
+                    } else if (dynamic_cast<Immortal*>(MousesCells.at(mouseX).at(mouseY)->getState())) {
+                        cout << "mouse4\n";
+                        MousesCells.at(mouseX).at(mouseY)->setState(new Damned);
+                        grille->setCells(MousesCells);
+                    } else if (dynamic_cast<Damned*>(MousesCells.at(mouseX).at(mouseY)->getState())) {
+                        cout << "mouse5\n";
+                        MousesCells.at(mouseX).at(mouseY)->setState(new Dead);
+                        grille->setCells(MousesCells);
+                    }
+                 }
             }
         }
         }
@@ -81,6 +127,8 @@ bool Game::run() {
 
         grille->print();
 
+        if (!pause || rightPressed)
+        {
         if (hashes.find(grille->getHash()) == hashes.end()) {
             hashes.emplace(grille->getHash(), nbiteration);
         
@@ -93,7 +141,6 @@ bool Game::run() {
         grille->getNeighbors();
         
         nbiteration += 1;
-        
         if (iteration != 0 && nbiteration == iteration)
         {
             run = false;
@@ -103,8 +150,10 @@ bool Game::run() {
             delete grille;
             return 0;
         }
+            rightPressed = false;
+            sf::sleep(sf::milliseconds(speed));
+        }
         
-        sf::sleep(sf::milliseconds(speed));
     }
     delete grille;
     delete fenetre;
@@ -137,3 +186,5 @@ void delFolder(const string Path) {
     rmdir(Path.c_str()) != 0;
         
 }
+
+void newIteration() {}
