@@ -44,13 +44,11 @@ bool Game::run() {
     }
     mkdir((fichier.getName()+ "_out").c_str() ,0775);
 
-    //cout << "oui13\n";
     grille->init(&fichier);
 
     Window* fenetre = new Window(grille);
 
     fenetre->initWindow();
-    //cout << "oui12\n";
     int speed = 100;
     bool pause = true;
     bool rightPressed = false;
@@ -116,9 +114,7 @@ bool Game::run() {
             }
         }
         }
-        //cout << "oui11\n";
         fenetre->renderWindow();
-        //cout << "oui7\n";
         cout << "itération " << nbiteration << " :" << endl;
 
         grille->print();
@@ -127,14 +123,13 @@ bool Game::run() {
         {
         if (hashes.find(grille->getHash()) == hashes.end()) {
             hashes.emplace(grille->getHash(), nbiteration);
-        
+        grille->getNeighbors();
         grille->update();
 
         File outFichier((fichier.getName() + to_string(nbiteration)).c_str(),fichier.getName()+ "_out/" + fichier.getName() + to_string(nbiteration) + ".txt");
 
         outFichier.write(grille);
         
-        grille->getNeighbors();
         
         nbiteration += 1;
         if (iteration != 0 && nbiteration == iteration)
