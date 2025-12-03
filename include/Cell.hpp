@@ -22,6 +22,7 @@ class Cell {
     Cell* evolution();
     void addAliveN();
     CellState* getState();
+    void setState(CellState* state);
     int getAliveNeighbors();
     static void setRules(GameRules* newRules);
     static GameRules* getRules();

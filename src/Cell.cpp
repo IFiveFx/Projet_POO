@@ -57,6 +57,9 @@ void Cell::addAliveN(){
 CellState* Cell::getState() {
     return state;
 }
+void Cell::setState(CellState* state) {
+    this->state = state;
+}
 
 int Cell::getAliveNeighbors() {
     return aliveNeighbour;

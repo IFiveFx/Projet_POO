@@ -10,21 +10,22 @@ class Cell;
 
 class Grid {
     private:
-    size_t h;
-    int lines;
-    int columns;
-    vector<vector<Cell*>> cells;
+        size_t h;
+        int lines;
+        int columns;
+        vector<vector<Cell*>> cells;
     public:
-    Grid(int l, int c);
-    void update();
-    void init(File* f);
-    void print();
-    void getNeighbors();
-    int getLines() const;
-    int getColums() const;
-    vector<vector<Cell*>> getCells() const;
-    void createHash();
-    size_t getHash();
+        Grid(int l = 0, int c = 0);
+        void update();
+        void init(File* f);
+        void print();
+        void getNeighbors();
+        int getLines() const;
+        int getColums() const;
+        vector<vector<Cell*>> getCells() const;
+        void setCells(vector<vector<Cell*>> cells);
+        void createHash();
+        size_t getHash();
     
 };
 
