@@ -62,6 +62,7 @@ bool Game::run() {
         cout << "itération " << nbiteration << " :" << endl;
          grille->print();
         if (hashes.find(grille->getHash()) == hashes.end()) {
+            hashes.emplace(grille->getHash(), nbiteration);
         grille->update();
         grille->getNeighbors();
         nbiteration += 1;

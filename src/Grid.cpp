@@ -2,6 +2,8 @@
 #include <string>
 #include <Dead.hpp>
 #include <Alive.hpp>
+#include <Immortal.hpp>
+#include <Damned.hpp>
 #include <iostream>
 using namespace std;
 
@@ -26,18 +28,56 @@ void Grid::init(File* f) {
             s = new Dead;
             tempcell = new Cell(s);
             //cout << "oui23\n";
-            cells.at(count).push_back(tempcell);
+            if (count < (int)cells.size()) {
+                cells.at(count).push_back(tempcell);
+            }
             //cout << "oui24\n";
         } else if (c == '1' ) {
             Cell* tempcell;
             CellState* s;
             s = new Alive;
             tempcell = new Cell(s);
-            cells.at(count).push_back(tempcell);
+            if (count < (int)cells.size()) {
+                cells.at(count).push_back(tempcell);
+            }
+        } else if (c == '2' ) {
+            Cell* tempcell;
+            CellState* s;
+            s = new Immortal;
+            tempcell = new Cell(s);
+            if (count < (int)cells.size()) {
+                cells.at(count).push_back(tempcell);
+            }
+        } else if (c == '3' ) {
+            Cell* tempcell;
+            CellState* s;
+            s = new Damned;
+            tempcell = new Cell(s);
+            if (count < (int)cells.size()) {
+                cells.at(count).push_back(tempcell);
+            }
         }
     }
-    lines = cells.size()-1;
-    columns = cells[0].size();
+    // If the last pushed row is empty (e.g. trailing newline), remove it.
+    if (!cells.empty() && cells.back().empty()) {
+        cells.pop_back();
+    }
+    lines = static_cast<int>(cells.size());
+    columns = (cells.empty() ? 0 : static_cast<int>(cells[0].size()));
+    
+    // Ensure all rows have the same number of columns
+    for (auto& row : cells) {
+        while (row.size() < (size_t)columns) {
+            CellState* s = new Dead;
+            Cell* tempcell = new Cell(s);
+            row.push_back(tempcell);
+        }
+        // If a row is longer, truncate it
+        if (row.size() > (size_t)columns) {
+            row.resize(columns);
+        }
+    }
+    
     getNeighbors();
 }
 
@@ -48,10 +88,10 @@ void Grid::getNeighbors() {
             for (int i = -1; i <= 1; i++) {
                 for (int j = -1; j <= 1; j++) {
                     if(i == 0 && j == 0) continue;
-                    int xNeighbour = (a + i + lines) % (lines);
-                    int yNeighbour = (b + j + columns) % columns;
-                    cells.at(xNeighbour).at(yNeighbour)->getNeighbors();
-                    cells.at(a).at(b)->addNeighbour(cells.at(xNeighbour).at(yNeighbour));
+                    int rowNeighbour = (a + i + lines) % lines;
+                    int colNeighbour = (b + j + columns) % columns;
+                    cells.at(rowNeighbour).at(colNeighbour)->getNeighbors();
+                    cells.at(a).at(b)->addNeighbour(cells.at(rowNeighbour).at(colNeighbour));
                 }
             }
         }
@@ -101,6 +141,10 @@ void Grid::print() {
                 cout << "1";
             } else if (dynamic_cast<Dead*>(c->getState())) {
                 cout << "0";
+            } else if (dynamic_cast<Immortal*>(c->getState())) {
+                cout << "2";
+            } else if (dynamic_cast<Damned*>(c->getState())) {
+                cout << "3";
             }
         }
         cout << endl;
@@ -117,6 +161,7 @@ int Grid::getLines() const {
 }
 vector<vector<Cell*>> Grid::getCells() const {
     return cells;
+}
 
 void Grid::createHash() {
     hash<string> hs;
@@ -129,6 +174,10 @@ void Grid::createHash() {
                 s += "1";
             } else if (dynamic_cast<Dead*>(c->getState())) {
                 s += "0";
+            } else if (dynamic_cast<Immortal*>(c->getState())) {
+                s += "2";
+            } else if (dynamic_cast<Damned*>(c->getState())) {
+                s += "3";
             }
         }
     }
