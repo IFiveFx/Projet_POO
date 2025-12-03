@@ -64,7 +64,7 @@ bool Game::run() {
         cout << "itération " << nbiteration << " :" << endl;
          grille->print();
         if (hashes.find(grille->getHash()) == hashes.end()) {
-        hashes.emplace(grille->getHash(),nbiteration);
+            hashes.emplace(grille->getHash(), nbiteration);
         grille->update();
         File outFichier((fichier.getName() + to_string(nbiteration)).c_str(),fichier.getName()+ "_out/" + fichier.getName() + to_string(nbiteration) + ".txt");
         outFichier.write(grille);

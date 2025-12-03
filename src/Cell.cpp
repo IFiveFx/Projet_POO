@@ -3,6 +3,8 @@
 #include <calculs.hpp>
 #include <Alive.hpp>
 #include <Dead.hpp>
+#include <Immortal.hpp>
+#include <Damned.hpp>
 #include <calculsAlive.hpp>
 #include <calculsDead.hpp>
 #include <iostream>
@@ -24,6 +26,8 @@ void Cell::checkNeighbour() {
     for (Cell* neighbour: neighbours) {
         if (dynamic_cast<Alive*>(neighbour->state)) {
             aliveNeighbour += 1;
+        } else if (dynamic_cast<Immortal*>(neighbour->state)) {
+            aliveNeighbour += 1;
         }
     }
 }
@@ -35,6 +39,10 @@ Cell* Cell::evolution(){
         c = new CalculsAlive;
     } else if (dynamic_cast<Dead*>(state)) {
         c = new CalculsDead;
+    } else if (dynamic_cast<Immortal*>(state)) {
+        return this;
+    } else if (dynamic_cast<Damned*>(state)) {
+        return this;
     }
     a = new Cell(c->use(this));
     delete c;

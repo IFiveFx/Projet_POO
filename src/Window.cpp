@@ -1,5 +1,8 @@
 #include "Window.hpp"
 #include "Alive.hpp"
+#include <Damned.hpp>
+#include <Dead.hpp>
+#include <Immortal.hpp>
 #include <iostream>
 using namespace std;
 
@@ -30,15 +33,27 @@ void Window::renderWindow() const {
 
     sfWindow->clear(sf::Color::Red);
     sf::RectangleShape cell(sf::Vector2f(CellSize - 1.0f, CellSize - 1.0f));
-    for (x = 0; x < grid->getColums(); ++x) {
-        for (y = 0; y < grid->getLines(); ++y) {
-            if (dynamic_cast<Alive*>(grid->getCells().at(x).at(y)->getState()) ) {
+    // grid->getCells() stores rows (lines) as the outer vector and columns as inner.
+    // Iterate by lines (y) then columns (x) and access cells[y][x].
+    for (y = 0; y < grid->getLines(); ++y) {
+        for (x = 0; x < grid->getColums(); ++x) {
+            // safety: ensure indices exist before accessing with at()
+            if (grid->getCells().size() <= (size_t)y || grid->getCells().at(y).size() <= (size_t)x) continue;
+            if (dynamic_cast<Alive*>(grid->getCells().at(y).at(x)->getState()) ) {
                 cell.setPosition(x * CellSize, y * CellSize);
                 cell.setFillColor(sf::Color::White);
                 sfWindow->draw(cell);
-            } else {
+            } else if (dynamic_cast<Dead*>(grid->getCells().at(y).at(x)->getState()) ) {
                 cell.setPosition(x * CellSize, y * CellSize);
                 cell.setFillColor(sf::Color::Black);
+                sfWindow->draw(cell);
+            } else if (dynamic_cast<Immortal*>(grid->getCells().at(y).at(x)->getState()) ) {
+                cell.setPosition(x * CellSize, y * CellSize);
+                cell.setFillColor(sf::Color::Green);
+                sfWindow->draw(cell);
+            } else if (dynamic_cast<Damned*>(grid->getCells().at(y).at(x)->getState()) ) {
+                cell.setPosition(x * CellSize, y * CellSize);
+                cell.setFillColor(sf::Color::Blue);
                 sfWindow->draw(cell);
             }
         }
