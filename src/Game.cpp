@@ -4,8 +4,11 @@
 #include <ctime>
 #include "Window.hpp"
 #include <sys/stat.h>
+#include <unistd.h>
+#include <dirent.h>
 using namespace std;
 
+void delFolder(const string Path);
 
 Game::Game(int UnderPop, int OverPop, int iteration) {
     if (OverPop < 0 || UnderPop < 0 || iteration < 0) {
@@ -21,17 +24,30 @@ Game::~Game() {
 }
 bool Game::run() {
     bool run = true;
+
     int nbiteration = 0;
+
     Cell::setRules(rules);
-    Grid* grille = new Grid(5,5);
+
+    Grid* grille = new Grid();
+
     File fichier("test","test.txt");
+
+    struct stat info;
+    if (stat((fichier.getName()+ "_out").c_str(),&info) == 0) {
+        delFolder((fichier.getName()+ "_out").c_str());
+    }
     mkdir((fichier.getName()+ "_out").c_str() ,0775);
+
     //cout << "oui13\n";
     grille->init(&fichier);
+
     Window* fenetre = new Window(grille);
+
     fenetre->initWindow();
     //cout << "oui12\n";
     int speed = 100;
+
     while (run)
     {
        
@@ -62,14 +78,22 @@ bool Game::run() {
         fenetre->renderWindow();
         //cout << "oui7\n";
         cout << "itération " << nbiteration << " :" << endl;
-         grille->print();
+
+        grille->print();
+
         if (hashes.find(grille->getHash()) == hashes.end()) {
             hashes.emplace(grille->getHash(), nbiteration);
+        
         grille->update();
+
         File outFichier((fichier.getName() + to_string(nbiteration)).c_str(),fichier.getName()+ "_out/" + fichier.getName() + to_string(nbiteration) + ".txt");
+
         outFichier.write(grille);
+        
         grille->getNeighbors();
+        
         nbiteration += 1;
+        
         if (iteration != 0 && nbiteration == iteration)
         {
             run = false;
@@ -92,4 +116,24 @@ void Game::setRules(GameRules* rules) {
 }
 GameRules* Game::getRules() {
     return this->rules;
+}
+
+void delFolder(const string Path) {
+    DIR* dir = opendir(Path.c_str());
+
+    struct dirent* entry;
+    while ((entry = readdir(dir)) != nullptr) {
+        string name = entry->d_name;
+
+        if (name == "." || name == "..") continue;
+
+        string fullPath = Path + "/" + name;
+
+        unlink(fullPath.c_str()) != 0;
+    }
+
+    closedir(dir);
+
+    rmdir(Path.c_str()) != 0;
+        
 }

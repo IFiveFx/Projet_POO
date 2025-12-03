@@ -58,21 +58,21 @@ void Grid::init(File* f) {
             }
         }
     }
-    // If the last pushed row is empty (e.g. trailing newline), remove it.
+    
     if (!cells.empty() && cells.back().empty()) {
         cells.pop_back();
     }
-    lines = static_cast<int>(cells.size());
-    columns = (cells.empty() ? 0 : static_cast<int>(cells[0].size()));
+
+    lines = cells.size();
+    columns = cells[0].size();
     
-    // Ensure all rows have the same number of columns
-    for (auto& row : cells) {
+    for (vector<Cell*> row : cells) {
         while (row.size() < (size_t)columns) {
             CellState* s = new Dead;
             Cell* tempcell = new Cell(s);
             row.push_back(tempcell);
         }
-        // If a row is longer, truncate it
+
         if (row.size() > (size_t)columns) {
             row.resize(columns);
         }
