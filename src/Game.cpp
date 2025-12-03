@@ -3,6 +3,7 @@
 #include <Cell.hpp>
 #include <ctime>
 #include "Window.hpp"
+#include <sys/stat.h>
 using namespace std;
 
 
@@ -24,6 +25,7 @@ bool Game::run() {
     Cell::setRules(rules);
     Grid* grille = new Grid(5,5);
     File fichier("test","test.txt");
+    mkdir((fichier.getName()+ "_out").c_str() ,0775);
     //cout << "oui13\n";
     grille->init(&fichier);
     Window* fenetre = new Window(grille);
@@ -62,7 +64,10 @@ bool Game::run() {
         cout << "itération " << nbiteration << " :" << endl;
          grille->print();
         if (hashes.find(grille->getHash()) == hashes.end()) {
+        hashes.emplace(grille->getHash(),nbiteration);
         grille->update();
+        File outFichier((fichier.getName() + to_string(nbiteration)).c_str(),fichier.getName()+ "_out/" + fichier.getName() + to_string(nbiteration) + ".txt");
+        outFichier.write(grille);
         grille->getNeighbors();
         nbiteration += 1;
         if (iteration != 0 && nbiteration == iteration)

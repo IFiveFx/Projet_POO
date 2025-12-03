@@ -2,6 +2,8 @@
 #include <fstream>
 #include <cstdio>
 #include <iostream>
+#include "Alive.hpp"
+#include "Dead.hpp"
 
 File::File(const string& name,const string& path) {
     this->name = name;
@@ -37,6 +39,26 @@ string File::read() const{
     
     return output;  
     
+}
+
+void File::write(Grid* grid) const{
+    
+    ofstream file(this->path.c_str(),ios::out | ios::app);
+    string line;
+    for (vector<Cell*> v : grid->getCells()){
+        //cout << "oui32\n";
+        for (Cell* c : v) {
+            //cout << "oui33\n";
+            if (dynamic_cast<Alive*>(c->getState())) {
+                line = line + "1";
+            } else if (dynamic_cast<Dead*>(c->getState())) {
+                line = line + "0";
+            }
+        }
+        line = line + "\n";
+    }
+    file << line << endl;
+    file.close();
 }
 
 void File::write(string ligne) const{

@@ -117,6 +117,7 @@ int Grid::getLines() const {
 }
 vector<vector<Cell*>> Grid::getCells() const {
     return cells;
+}
 
 void Grid::createHash() {
     hash<string> hs;
