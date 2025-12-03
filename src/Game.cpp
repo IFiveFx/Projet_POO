@@ -92,28 +92,23 @@ bool Game::run() {
                 }
                 
             }
-            if(event.type == sf::Event::MouseButtonReleased) {
+            if(event.type == sf::Event::MouseButtonPressed) {
                  if (event.mouseButton.button == sf::Mouse::Left) {
                     sf::Vector2i mousePosition = sf::Mouse::getPosition(*fenetre->getSfWindow());
-                    int mouseX = mousePosition.x; 
-                    int mouseY = mousePosition.y;
+                    int mouseX = int(mousePosition.y / fenetre->getCellSize()); 
+                    int mouseY = int(mousePosition.x / fenetre->getCellSize());
                     vector<vector<Cell*>> MousesCells = grille->getCells();
                     Cell* mousesCell;
-                    cout << "mouse1\n";
                     if (dynamic_cast<Alive*>(MousesCells.at(mouseX).at(mouseY)->getState())) {
-                        cout << "mouse2\n";
                         MousesCells.at(mouseX).at(mouseY)->setState(new Immortal);
                         grille->setCells(MousesCells);
                     } else if (dynamic_cast<Dead*>(MousesCells.at(mouseX).at(mouseY)->getState())) {
-                        cout << "mouse3\n";
                         MousesCells.at(mouseX).at(mouseY)->setState(new Alive);
                         grille->setCells(MousesCells);
                     } else if (dynamic_cast<Immortal*>(MousesCells.at(mouseX).at(mouseY)->getState())) {
-                        cout << "mouse4\n";
                         MousesCells.at(mouseX).at(mouseY)->setState(new Damned);
                         grille->setCells(MousesCells);
                     } else if (dynamic_cast<Damned*>(MousesCells.at(mouseX).at(mouseY)->getState())) {
-                        cout << "mouse5\n";
                         MousesCells.at(mouseX).at(mouseY)->setState(new Dead);
                         grille->setCells(MousesCells);
                     }
