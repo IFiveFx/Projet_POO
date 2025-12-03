@@ -84,6 +84,7 @@ void Grid::update() {
         count += 1;
     }
     this->cells = newGrid->getCells();
+    delete newGrid;
 
 }
 

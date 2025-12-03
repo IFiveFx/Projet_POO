@@ -25,7 +25,7 @@ void Window::initWindow() {
     this->sfWindow = out;
 }
 void Window::renderWindow() const {
-    cout << "oui31\n";
+    //cout << "oui31\n";
     int x, y;
 
     sfWindow->clear(sf::Color::Red);

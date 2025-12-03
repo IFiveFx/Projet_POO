@@ -55,17 +55,18 @@ bool Game::run() {
             }
         }
         }
-        cout << "oui11\n";
+        //cout << "oui11\n";
         fenetre->renderWindow();
         //cout << "oui7\n";
         
         grille->update();
         grille->getNeighbors();
-        if (iteration != 0)
+        nbiteration += 1;
+        if (iteration != 0 && nbiteration == iteration)
         {
-            nbiteration += 1;
-            if (nbiteration == iteration) run = false;
+            run = false;
         }
+        
         sf::sleep(sf::milliseconds(speed));
     }
     delete grille;
