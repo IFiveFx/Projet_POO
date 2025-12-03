@@ -46,7 +46,7 @@ bool Game::run() {
 
     grille->init(&fichier);
 
-    Window* fenetre = new Window(grille);
+    Window* fenetre = new Window(grille, 50);
 
     fenetre->initWindow();
     int speed = 100;

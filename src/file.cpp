@@ -4,6 +4,8 @@
 #include <iostream>
 #include "Alive.hpp"
 #include "Dead.hpp"
+#include <Damned.hpp>
+#include <Immortal.hpp>
 
 File::File(const string& name,const string& path) {
     this->name = name;
@@ -46,17 +48,20 @@ void File::write(Grid* grid) const{
     ofstream file(this->path.c_str(),ios::out | ios::app);
     string line;
     for (vector<Cell*> v : grid->getCells()){
-        //cout << "oui32\n";
         for (Cell* c : v) {
-            //cout << "oui33\n";
             if (dynamic_cast<Alive*>(c->getState())) {
                 line = line + "1";
             } else if (dynamic_cast<Dead*>(c->getState())) {
                 line = line + "0";
+            } else if (dynamic_cast<Immortal*>(c->getState())) {
+                line = line + "2";
+            } else if (dynamic_cast<Damned*>(c->getState())) {
+                line = line + "3";
             }
         }
         line = line + "\n";
     }
+    line.pop_back();
     file << line << endl;
     file.close();
 }
