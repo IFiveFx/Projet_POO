@@ -6,3 +6,4 @@ Makefile
 exe
 .gitignore
 test.txt
+test2.txt
