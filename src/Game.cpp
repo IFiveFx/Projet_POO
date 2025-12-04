@@ -5,9 +5,8 @@
 #include "Window.hpp"
 #include <nfd.hpp>
 
-#include <sys/stat.h>
-#include <unistd.h>
-#include <dirent.h>
+#include "Folder.hpp"
+
 #include "Alive.hpp"
 #include "Dead.hpp"
 #include "Immortal.hpp"
@@ -15,7 +14,6 @@
 #include <chrono>
 using namespace std;
 
-void delFolder(const string Path);
 
 Game::Game(int UnderPop, int OverPop, int iteration) {
     if (OverPop < 0 || UnderPop < 0 || iteration < 0) {
@@ -40,15 +38,13 @@ bool Game::run() {
     string fileN = setFileName(FilePath);
     File fichier(fileN, FilePath);
     Grid* grille = new Grid();
-    struct stat info;
-    if (stat((fichier.getName()+ "_out").c_str(),&info) == 0) {
-        delFolder((fichier.getName()+ "_out").c_str());
-    }
-    mkdir((fichier.getName()+ "_out").c_str() ,0775);
+
+    Folder dossier(fichier.getName() + "_out");
+    dossier.create();
 
     grille->init(&fichier);
 
-    Window* fenetre = new Window(grille, 50);
+    Window* fenetre = new Window(grille, 20);
 
     fenetre->initWindow();
     int speed = 100;
@@ -130,7 +126,7 @@ bool Game::run() {
         grille->getNeighbors();
         grille->update();
 
-        File outFichier((fichier.getName() + to_string(nbiteration)).c_str(),fichier.getName()+ "_out/" + fichier.getName() + to_string(nbiteration) + ".txt");
+        File outFichier((fichier.getName() + to_string(nbiteration)).c_str(),dossier.getName() + "/" + fichier.getName() + to_string(nbiteration) + ".txt");
 
         outFichier.write(grille);
         
@@ -217,24 +213,3 @@ string Game::setFileName(string path) {
     return res;
 
 }
-void delFolder(const string Path) {
-    DIR* dir = opendir(Path.c_str());
-
-    struct dirent* entry;
-    while ((entry = readdir(dir)) != nullptr) {
-        string name = entry->d_name;
-
-        if (name == "." || name == "..") continue;
-
-        string fullPath = Path + "/" + name;
-
-        remove(fullPath.c_str());
-    }
-
-    closedir(dir);
-
-    rmdir(Path.c_str()) != 0;
-        
-}
-
-void newIteration() {}
