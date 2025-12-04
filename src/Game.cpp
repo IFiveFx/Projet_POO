@@ -11,6 +11,7 @@
 #include "Dead.hpp"
 #include "Immortal.hpp"
 #include "Damned.hpp"
+#include <chrono>
 using namespace std;
 
 
@@ -27,6 +28,7 @@ Game::~Game() {
     delete rules;
 }
 bool Game::run() {
+    double time = 0;
     bool run = true;
 
     int nbiteration = 0;
@@ -111,12 +113,14 @@ bool Game::run() {
         }
         }
         fenetre->renderWindow();
-        cout << "itération " << nbiteration << " :" << endl;
+        std::cout << "itération " << nbiteration << " :" << endl;
 
         grille->print();
 
         if (!pause || rightPressed)
         {
+            chrono::high_resolution_clock sc;   
+            auto start = sc.now(); 
         if (hashes.find(grille->getHash()) == hashes.end()) {
             hashes.emplace(grille->getHash(), nbiteration);
         grille->getNeighbors();
@@ -134,14 +138,21 @@ bool Game::run() {
         }
           } else {
             cout << "répétition de l'itération : " << hashes.find(grille->getHash())->second << endl;
+            cout << "total calc time : " << time << endl;
             delete grille;
             return 0;
         }
             rightPressed = false;
             sf::sleep(sf::milliseconds(speed));
+
+            auto end = sc.now();       // end timer (starting & ending is done by measuring the time at the moment the process started & ended respectively)
+            auto time_span = static_cast<chrono::duration<double>>(end - start);   // measure time span between start & end
+            time += time_span.count();
         }
         
+        
     }
+    cout << "total calc time : " << time << endl;
     delete grille;
     delete fenetre;
     return 0;

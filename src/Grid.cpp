@@ -60,8 +60,9 @@ void Grid::init(File* f) {
 
     lines = cells.size();
     columns = cells[0].size();
-    
-    for (vector<Cell*> row : cells) {
+
+    #pragma omp parallel for
+    for (vector<Cell*>& row : cells) {
         while (row.size() < (size_t)columns) {
             CellState* s = new Dead;
             Cell* tempcell = new Cell(s);
@@ -77,6 +78,14 @@ void Grid::init(File* f) {
 
 
 void Grid::getNeighbors() {
+    #pragma omp parallel for
+    for (int r = 0; r < (int)cells.size(); ++r) {
+        for (Cell* c : cells[r]) {
+            c->clearNeighbours();
+        }
+    }
+
+    #pragma omp parallel for
     for (int a = 0; a < lines; a++) {
         for (int b = 0; b < columns; b++) {
             for (int i = -1; i <= 1; i++) {
@@ -84,16 +93,14 @@ void Grid::getNeighbors() {
                     if(i == 0 && j == 0) continue;
                     int rowNeighbour = (a + i + lines) % lines;
                     int colNeighbour = (b + j + columns) % columns;
-                    cells.at(rowNeighbour).at(colNeighbour)->getNeighbors();
                     cells.at(a).at(b)->addNeighbour(cells.at(rowNeighbour).at(colNeighbour));
                 }
             }
         }
     }
-
-
-    for (vector<Cell*> v : cells) {
-        for (Cell* c : v) {
+    #pragma omp parallel for
+    for (int r = 0; r < (int)cells.size(); ++r) {
+        for (Cell* c : cells[r]) {
             c->checkNeighbour();
         }
     }
@@ -102,16 +109,18 @@ void Grid::getNeighbors() {
 
 }
 
+
+
 void Grid::update() {
     Grid* newGrid = new Grid(lines,columns);
-    int count = 0;
-    for (vector<Cell*> v : cells) {
+    newGrid->cells = vector<vector<Cell*>>(lines,vector<Cell*>());
+    #pragma omp parallel for
+    for (int v = 0; v < (int)cells.size(); v++) {
         vector<Cell*> newV;
-        newGrid->cells.push_back(newV);
-        for (Cell* c : v) {
-            newGrid->cells.at(count).push_back(c->evolution());
+        newGrid->cells.at(v) = newV;
+        for (Cell* c : cells.at(v)) {
+            newGrid->cells.at(v).push_back(c->evolution());
         }
-        count += 1;
     }
     this->cells = newGrid->getCells();
     delete newGrid;
@@ -153,20 +162,33 @@ void Grid::setCells(vector<vector<Cell*>> cells) {
 
 void Grid::createHash() {
     hash<string> hs;
-    string s = "";
-    for (vector<Cell*> v : cells){
-        for (Cell* c : v) {
-            if (dynamic_cast<Alive*>(c->getState())) {
-                s += "1";
-            } else if (dynamic_cast<Dead*>(c->getState())) {
-                s += "0";
-            } else if (dynamic_cast<Immortal*>(c->getState())) {
-                s += "2";
-            } else if (dynamic_cast<Damned*>(c->getState())) {
-                s += "3";
+    if (lines <= 0 || columns <= 0) {
+        h = hs(string());
+        return;
+    }
+
+    const int total = lines * columns;
+    vector<char> buf(total, '0');
+
+    #pragma omp parallel for
+    for (int v = 0; v < lines; v++) {
+        for (int c = 0; c < columns; c++) {
+            char code = '0';
+            Cell* cell = cells.at(v).at(c);
+            if (dynamic_cast<Alive*>(cell->getState())) {
+                code = '1';
+            } else if (dynamic_cast<Dead*>(cell->getState())) {
+                code = '0';
+            } else if (dynamic_cast<Immortal*>(cell->getState())) {
+                code = '2';
+            } else if (dynamic_cast<Damned*>(cell->getState())) {
+                code = '3';
             }
+            buf[v * columns + c] = code;
         }
     }
+
+    string s(buf.begin(), buf.end());
     h = hs(s);
 
 }

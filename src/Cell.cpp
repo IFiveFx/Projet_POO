@@ -18,11 +18,16 @@ void Cell::addNeighbour(Cell* neighbour) {
     neighbours.push_back(neighbour);
 }
 
+void Cell::clearNeighbours() {
+    neighbours.clear();
+}
+
 vector<Cell*> Cell::getNeighbors() {
     return neighbours;
 }
 
 void Cell::checkNeighbour() {
+    aliveNeighbour = 0;
     for (Cell* neighbour: neighbours) {
         if (dynamic_cast<Alive*>(neighbour->state)) {
             aliveNeighbour += 1;
