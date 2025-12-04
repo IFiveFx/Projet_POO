@@ -9,8 +9,15 @@ using namespace std;
 
 
 Window::Window(Grid* grid,int CellSize) : grid(grid) {
-    if (CellSize <= 0){this->CellSize = 10;return;}
-    this->CellSize = CellSize;
+    // if (CellSize <= 0){this->CellSize = 10;return;}
+    // this->CellSize = CellSize;
+    if (grid->getColums() > grid->getLines()) {
+        this->CellSize = (1920 / grid->getColums())*2;
+    } else {
+        this->CellSize = (1080 / grid->getLines())*2;
+    }
+
+
 }
 Window::~Window() {
     delete sfWindow;
