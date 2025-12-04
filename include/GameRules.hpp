@@ -1,7 +1,7 @@
 #if !defined(DEF_GAMERULES)
 #define DEF_GAMERULES
 
-#include "Game.hpp"
+
 
 class GameRules
 {

@@ -14,6 +14,7 @@
 #include <chrono>
 using namespace std;
 
+class Folder;
 
 Game::Game(int UnderPop, int OverPop, int iteration) {
     if (OverPop < 0 || UnderPop < 0 || iteration < 0) {
@@ -65,7 +66,7 @@ bool Game::run() {
                 switch (event.key.code)
                 {
                 case sf::Keyboard::Up:
-                    if(speed == 10) break;
+                    if(speed == 0) break;
                     speed -= 10;
                     break;
                 
