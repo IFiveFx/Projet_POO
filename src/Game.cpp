@@ -14,6 +14,7 @@
 #include <chrono>
 using namespace std;
 
+class Folder;
 
 Game::Game(int UnderPop, int OverPop, int iteration, string mode) {
     if (OverPop < 0 || UnderPop < 0 || iteration < 0) {

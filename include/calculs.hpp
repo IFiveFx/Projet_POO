@@ -1,7 +1,6 @@
 #if !defined(DEF_CALCULS)
 #define DEF_CALCULS
 
-#include "Game.hpp"
 #include "CellState.hpp"
 #include "Cell.hpp"
 

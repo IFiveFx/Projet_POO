@@ -26,7 +26,6 @@ class Grid {
         void setCells(vector<vector<Cell*>> cells);
         void createHash();
         size_t getHash();
-    
 };
 
 
