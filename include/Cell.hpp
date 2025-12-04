@@ -18,6 +18,7 @@ class Cell {
     Cell(CellState* state);
     void checkNeighbour();
     void addNeighbour(Cell* neighbour);
+    void clearNeighbours();
     vector<Cell*> getNeighbors();
     Cell* evolution();
     void addAliveN();

@@ -14,6 +14,12 @@ add_executable(exe ${SOURCES})
 # Inclure les headers du projet
 target_include_directories(exe PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/include")
 
+# Activer OpenMP si disponible
+find_package(OpenMP REQUIRED)
+if (OpenMP_CXX_FOUND)
+    target_link_libraries(exe PRIVATE OpenMP::OpenMP_CXX)
+endif()
+
 # Ajouter nativefiledialog
 add_subdirectory(nativefiledialog-extended)
 target_link_libraries(exe PRIVATE nfd)
