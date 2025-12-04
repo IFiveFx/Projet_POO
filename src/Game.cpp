@@ -15,7 +15,7 @@
 using namespace std;
 
 
-Game::Game(int UnderPop, int OverPop, int iteration) {
+Game::Game(int UnderPop, int OverPop, int iteration, string mode) {
     if (OverPop < 0 || UnderPop < 0 || iteration < 0) {
      cerr << "les attributs de game ne peuvent être négatifs\n";
      return;   
@@ -23,11 +23,23 @@ Game::Game(int UnderPop, int OverPop, int iteration) {
     GameRules* rules = new GameRules(UnderPop,OverPop);
     this->rules = rules;
     this->iteration = iteration;
+    this->mode = mode;
 }
 Game::~Game() {
     delete rules;
 }
+
 bool Game::run() {
+    if (mode == "-graph") {
+        runGraphic();
+    } else {
+        runConsole();
+    }
+    return 1;
+}
+
+
+bool Game::runConsole() {
     double time = 0;
     bool run = true;
 
@@ -41,6 +53,64 @@ bool Game::run() {
 
     Folder dossier(fichier.getName() + "_out");
     dossier.create();
+
+    grille->init(&fichier);
+
+
+    while (run)
+    {    
+        std::cout << "itération " << nbiteration << " :" << endl;
+        grille->print();
+
+       
+            chrono::high_resolution_clock sc;   
+            auto start = sc.now(); 
+        if (hashes.find(grille->getHash()) == hashes.end()) {
+            hashes.emplace(grille->getHash(), nbiteration);
+        grille->getNeighbors();
+        grille->update();
+
+        File outFichier((fichier.getName() + to_string(nbiteration)).c_str(),dossier.getName() + "/" + fichier.getName() + to_string(nbiteration) + ".txt");
+
+        outFichier.write(grille);
+        
+        
+        nbiteration += 1;
+        if (iteration != 0 && nbiteration == iteration)
+        {
+            run = false;
+        }
+          } else {
+            std::cout << "répétition de l'itération : " << hashes.find(grille->getHash())->second << endl;
+            std::cout << "total calc time : " << time << endl;
+            delete grille;
+            return 0;
+        }
+
+            auto end = sc.now();       // end timer (starting & ending is done by measuring the time at the moment the process started & ended respectively)
+            auto time_span = static_cast<chrono::duration<double>>(end - start);   // measure time span between start & end
+            time += time_span.count();
+        }
+        cout << "total calc time : " << time << endl;
+    delete grille;
+    return 0;
+        
+    }
+
+
+
+
+bool Game::runGraphic() {
+    double time = 0;
+    bool run = true;
+
+    int nbiteration = 0;
+
+    Cell::setRules(rules);
+    string FilePath = setFile();
+    string fileN = setFileName(FilePath);
+    File fichier(fileN, FilePath);
+    Grid* grille = new Grid();
 
     grille->init(&fichier);
 
@@ -65,7 +135,7 @@ bool Game::run() {
                 switch (event.key.code)
                 {
                 case sf::Keyboard::Up:
-                    if(speed == 10) break;
+                    if(speed == 0) break;
                     speed -= 10;
                     break;
                 
@@ -113,10 +183,6 @@ bool Game::run() {
         }
         }
         fenetre->renderWindow();
-        std::cout << "itération " << nbiteration << " :" << endl;
-
-        grille->print();
-
         if (!pause || rightPressed)
         {
             chrono::high_resolution_clock sc;   
@@ -125,20 +191,13 @@ bool Game::run() {
             hashes.emplace(grille->getHash(), nbiteration);
         grille->getNeighbors();
         grille->update();
-
-        File outFichier((fichier.getName() + to_string(nbiteration)).c_str(),dossier.getName() + "/" + fichier.getName() + to_string(nbiteration) + ".txt");
-
-        outFichier.write(grille);
-        
-        
+                
         nbiteration += 1;
         if (iteration != 0 && nbiteration == iteration)
         {
             run = false;
         }
           } else {
-            cout << "répétition de l'itération : " << hashes.find(grille->getHash())->second << endl;
-            cout << "total calc time : " << time << endl;
             delete grille;
             return 0;
         }
@@ -178,8 +237,6 @@ string Game::setFile() {
     nfdresult_t result = NFD_OpenDialogU8_With(&outPath, &args);
     if (result == NFD_OKAY)
     {
-        puts("Success!");
-        puts(outPath);
         return outPath;
         NFD_FreePathU8(outPath);
     }
@@ -199,7 +256,6 @@ string Game::setFile() {
 string Game::setFileName(string path) {
     int nameStart = 0;
     string res;
-    cout << path << endl;
     for (int i = 1; i < path.length(); i++) {
         if (path.at(i) == char(47)) {
             nameStart = i + 1;
@@ -209,7 +265,6 @@ string Game::setFileName(string path) {
     for (int i = nameStart; i < (path.length()-4); i++) {
         res.push_back(path.at(i));
     }
-    cout << res << endl;
     return res;
 
 }

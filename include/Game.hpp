@@ -14,10 +14,13 @@ private:
     GameRules* rules;
     int iteration;
     unordered_map<size_t, int> hashes;
+    string mode;
 public:
-    Game(int OverPop, int UnderPop, int iteration = 0);
+    Game(int OverPop, int UnderPop, int iteration = 0, string mode = "");
     ~Game();
     bool run();
+    bool runConsole();
+    bool runGraphic();
     void setRules(GameRules* rules);
     GameRules* getRules();
     string setFile();
