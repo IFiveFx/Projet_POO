@@ -15,7 +15,7 @@ public:
     ~Window();
     void setCellSize(int CellSize);
     int getCellSize() const;
-    void renderWindow() const;
+    void renderWindow(int iteration) const;
     void initWindow();
     sf::RenderWindow* getSfWindow() const;
 };

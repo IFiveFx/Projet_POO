@@ -182,7 +182,7 @@ bool Game::runGraphic() {
             }
         }
         }
-        fenetre->renderWindow();
+        fenetre->renderWindow(nbiteration);
         if (!pause || rightPressed)
         {
             chrono::high_resolution_clock sc;   
@@ -198,6 +198,8 @@ bool Game::runGraphic() {
             run = false;
         }
           } else {
+            std::cout << "itération de fin : " << nbiteration << endl;
+            std::cout << "répétition de l'itération : " << hashes.find(grille->getHash())->second << endl;
             delete grille;
             return 0;
         }
