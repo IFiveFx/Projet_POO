@@ -31,7 +31,7 @@ int Window::getCellSize() const {
 }
 void Window::initWindow() {
     sf::RenderWindow* out;
-    out = new sf::RenderWindow (sf::VideoMode(CellSize * grid->getColums(),CellSize * grid->getLines()), "Game of life");
+    out = new sf::RenderWindow (sf::VideoMode(CellSize * grid->getColums(),(CellSize * grid->getLines())+70), "Game of life");
     this->sfWindow = out;
 }
 void Window::renderWindow(int iteration) const {

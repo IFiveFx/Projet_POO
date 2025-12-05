@@ -9,7 +9,7 @@ private:
     int OverPop;
     int UnderPop;
 public:
-    GameRules(int OverPop, int UnderPop);
+    GameRules(int UnderPop, int OverPop);
     ~GameRules();
     void setOverPop(int overPop);
     void setUnderPop(int UnderPop);

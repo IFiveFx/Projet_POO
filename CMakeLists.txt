@@ -49,3 +49,9 @@ if(SFML_FOUND)
 else()
     message(FATAL_ERROR "SFML not found. Install SFML development packages or set SFML_DIR.")
 endif()
+
+# Option to build tests
+option(BUILD_TESTS "Build unit tests" ON)
+if(BUILD_TESTS)
+    add_subdirectory(tests)
+endif()
