@@ -5,7 +5,7 @@
 #include "GameRules.hpp"
 #include "Cell.hpp"
 
-// helper: build grid from int pattern
+
 static Grid buildGrid(const std::vector<std::vector<int>>& pattern) {
     int lines = (int)pattern.size();
     int cols = lines > 0 ? (int)pattern[0].size() : 0;
@@ -23,7 +23,6 @@ static Grid buildGrid(const std::vector<std::vector<int>>& pattern) {
     return g;
 }
 
-// compare two grids by hash (createHash must be called to update hash)
 static bool gridsEqual(Grid& a, Grid& b) {
     a.createHash();
     b.createHash();
@@ -31,7 +30,6 @@ static bool gridsEqual(Grid& a, Grid& b) {
 }
 
 TEST_CASE("Grid evolves to expected state after N iterations", "[grid][evolution]") {
-    // Blinker example: vertical -> horizontal after 1 step
     std::vector<std::vector<int>> initial = {
         {0,0,0,0,0},
         {0,0,1,0,0},
@@ -51,11 +49,10 @@ TEST_CASE("Grid evolves to expected state after N iterations", "[grid][evolution
     Grid g = buildGrid(initial);
     Grid expected = buildGrid(after1);
 
-    // Conway-like rules: survive with 2..3 neighbors, birth on 3 neighbors
-    GameRules* rules = new GameRules(2, 3); // OverPop=3, UnderPop=2
+    GameRules* rules = new GameRules(2, 3); 
     Cell::setRules(rules);
 
-    // perform 1 iteration: must call getNeighbors() before each update
+
     g.getNeighbors();
     g.update();
 
