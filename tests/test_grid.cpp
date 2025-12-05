@@ -3,7 +3,7 @@
 #include "Alive.hpp"
 #include "Dead.hpp"
 
-// small helper to build a grid from vectors of ints (0 dead, 1 alive)
+
 static Grid buildGridFromVec(const std::vector<std::vector<int>>& pattern) {
     int lines = (int)pattern.size();
     int cols = lines > 0 ? (int)pattern[0].size() : 0;
@@ -29,7 +29,6 @@ TEST_CASE("Grid basic dimensions and access", "[grid]") {
 }
 
 TEST_CASE("Grid neighbor linking and count for blinker", "[grid][neighbors]") {
-    // blinker vertical in center of 5x5
     std::vector<std::vector<int>> pattern = {
         {0,0,0,0,0},
         {0,0,1,0,0},
@@ -40,7 +39,6 @@ TEST_CASE("Grid neighbor linking and count for blinker", "[grid][neighbors]") {
     Grid g = buildGridFromVec(pattern);
     g.getNeighbors();
 
-    // center cell at (2,2) should have 2 alive neighbors
     auto cells = g.getCells();
     Cell* center = cells[2][2];
     REQUIRE(center->getAliveNeighbors() == 2);
