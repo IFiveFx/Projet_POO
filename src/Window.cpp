@@ -40,7 +40,9 @@ void Window::renderWindow(int iteration) const {
     it += to_string(iteration);
 
     sf::Font font;
-    font.loadFromFile("../arial.ttf");
+    if (!font.loadFromFile("./arial.ttf")) {
+        font.loadFromFile("../arial.ttf");
+    };
     sf::Text text(it, font, 50);
 
     sfWindow->clear(sf::Color::White);
