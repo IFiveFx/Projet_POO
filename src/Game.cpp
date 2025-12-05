@@ -31,7 +31,7 @@ Game::~Game() {
 }
 
 bool Game::run() {
-    if (mode == "-graph") {
+    if (mode == "-g") {
         runGraphic();
     } else {
         runConsole();
