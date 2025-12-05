@@ -162,7 +162,7 @@ bool Game::runGraphic() {
             if(event.type == sf::Event::MouseButtonPressed) {
                  if (event.mouseButton.button == sf::Mouse::Left) {
                     sf::Vector2i mousePosition = sf::Mouse::getPosition(*fenetre->getSfWindow());
-                    int mouseX = int(mousePosition.y / fenetre->getCellSize()); 
+                    int mouseX = int((mousePosition.y - 70) / fenetre->getCellSize()); 
                     int mouseY = int(mousePosition.x / fenetre->getCellSize());
                     vector<vector<Cell*>> MousesCells = grille->getCells();
                     Cell* mousesCell;

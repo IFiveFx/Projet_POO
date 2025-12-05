@@ -11,10 +11,10 @@ using namespace std;
 Window::Window(Grid* grid,int CellSize) : grid(grid) {
     // if (CellSize <= 0){this->CellSize = 10;return;}
     // this->CellSize = CellSize;
-    if ((grid->getColums() / grid->getLines()) > (1920 / (1080 - 70))) {
-        this->CellSize = (1920 / grid->getColums())*2;
+    if ((grid->getColums() / grid->getLines()) > (2560 / (1600 - 70))) {
+        this->CellSize = (2560 / grid->getColums())*1.75;
     } else {
-        this->CellSize = ((1080 - 70) / grid->getLines())*2;
+        this->CellSize = ((1600 - 70) / grid->getLines())*1.6;
     }
 
 
@@ -45,12 +45,12 @@ void Window::renderWindow(int iteration) const {
     font.loadFromFile("arial.ttf");
     sf::Text text(it, font, 50);
 
-    sfWindow->clear(sf::Color::Red);
+    sfWindow->clear(sf::Color::White);
     sf::RectangleShape cell(sf::Vector2f(CellSize - 1.0f, CellSize - 1.0f));
     // grid->getCells() stores rows (lines) as the outer vector and columns as inner.
     // Iterate by lines (y) then columns (x) and access cells[y][x].
     text.setPosition(0,0);
-    text.setFillColor(sf::Color::White);
+    text.setFillColor(sf::Color::Black);
     sfWindow->draw(text);
     for (y = 0; y < grid->getLines(); ++y) {
         for (x = 0; x < grid->getColums(); ++x) {
